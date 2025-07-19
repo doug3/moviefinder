@@ -1,0 +1,14 @@
+
+Hope you enjoy your new logo, here are the people that
+made your beautiful logo happen :)
+font name: unb-office_bold-italic
+font link: http://www.marca.unb.br/fontesunb.php
+font author: Universidade de Brasilia
+font author site: http://www.marca.unb.br/introducao.php
+Slogan Font: Questrial-Regular.otf
+
+icon designer: Dan Hetteix
+icon designer link: /creator/DHETTEIX/
+        
+{"bg":"transparent","icon-gradient-0":"#D6413F","icon-gradient-1":"#4285D3","font":"#000000","slogan":"#141414"}
+      
