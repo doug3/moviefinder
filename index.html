@@ -44,8 +44,7 @@
     <main>
         <div class="container">
             <div class="main__search">
-                <div class="row form__wrapper">
-                    <!-- <form id="searchForm"> -->
+                <div class="row input__wrapper">
                         <input type="text" id="searchBar" required placeholder="Search by Title *required">
                         <select name="year" id="searchYear" class="search__year">
                             <option value="">Year</option>
@@ -177,11 +176,10 @@
                             <option value="1900">1900</option>
                         </select>
                         <div class="search__wrapper">
-                            <button onclick="onSearch()">
+                            <button id="searchNow" onclick="onSearch()">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
                         </div>
-                    <!-- </form> -->
                 </div>
             </div>
         </div>

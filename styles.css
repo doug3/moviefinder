@@ -205,7 +205,7 @@ nav {
     justify-content: center;
 }
 
-.form__wrapper {
+.input__wrapper {
     display: flex;
     line-height: 20px;
     font-size: 18px;
@@ -221,7 +221,7 @@ nav {
     align-items: center;
 }
 
-.form__wrapper input, select {
+.input__wrapper input, select {
     padding: 10px 20px;
     border: none;
     outline: none;
@@ -229,7 +229,7 @@ nav {
     color: #000000;
 }
 
-.form__wrapper input {
+.input__wrapper input {
     width: 65%;
 }
 
@@ -300,6 +300,10 @@ nav {
     .nav__links {
         font-size: 0.8rem;
     }
+
+    .movie__box {
+        width: 50%;
+    }
 }
 
 @media (max-width: 768px) {
@@ -328,6 +332,10 @@ nav {
 
     .modal {
         display: flex;
+    }
+
+    .movie__box {
+        width: 100%;
     }
 }
 
