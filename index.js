@@ -75,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 searchBar.addEventListener("keyup", function(event) {
-    console.log(event.code);
     if ((event.code === "Enter") || (event.code === "NumpadEnter")) {
         event.preventDefault();
         onSearch();
