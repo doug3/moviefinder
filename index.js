@@ -11,7 +11,8 @@ function closeMenu() {
 }
 
 async function onSearch() {
-    
+    document.querySelector("#spinner").classList.add("movie__list--loading");
+    setTimeout(function(){closeMenu()}, 5000);
     const searchTitle = searchBar.value;
     const searchYear = document.getElementById('searchYear').value;
     var searchKey = "s=" + searchTitle + "&type=movie";
@@ -20,7 +21,8 @@ async function onSearch() {
         try {
             const movies = await fetch("https://www.omdbapi.com/?apikey=8097d20a&" + searchKey);
             const moviesData = await movies.json();
-
+            
+            document.querySelector("#spinner").classList.remove("movie__list--loading");
             if (moviesData.Search.length > 6) moviesData.Search.length = 6;
             
             
@@ -36,7 +38,7 @@ async function onSearch() {
             }
         }
         catch (error) {
-            console.log("There was a problem!! Try again.");
+            movieListElement.innerHTML = "<p>Database not connected. Try again later.</p>";
         }
     } else alert("Title is required to search");   
 }
@@ -53,7 +55,6 @@ function movieHTML(movie) {
 
 
 // function movieHTMLSingle(movie) { 
-//     console.log(movie);
 //     return `
 //             <div class="movie__box">
 //                 <img src="${movie.Poster}" class="movie__poster"></img>

@@ -262,8 +262,30 @@ nav {
     max-width: 1200px;
 }
 
+.movie__list img {
+    width: 100%;
+    max-width: 1200px;
+}
+
 .movie__list h2 {
     font-size: 1.4em;
+}
+
+.movie__list--loading {
+    display: flex;
+    color: #4285D3;
+}
+
+.movie__list--spinner {
+    display: none !important;
+    color: #4285D3;
+    justify-content: center;
+    align-items: center;
+    font-size: 64px;
+}
+
+.movie__list--loading .movie__list--spinner {
+    display: block !important;
 }
 
 .movie__box {
@@ -272,17 +294,39 @@ nav {
     align-items: center;
     width: 33%;
     max-width: 400px;
-    padding: 20px 30px;
+    padding: 10px 10px;
+    border: 2px solid #f1977e;
+    border-radius: 20px;
+    margin-top: 10px;
 }
 
 .movie__poster {
-    height: 400px;
     width: 100%;
     max-width: 300px;
 }
 
 .movie__title {
     text-align: center;
+}
+
+/* .fa-spinner {
+    animation: rotate 800ms infinite linear;
+} */
+
+.myspinner {
+    animation: rotate 800ms infinite linear;
+    width: 100px;
+}
+
+
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 
