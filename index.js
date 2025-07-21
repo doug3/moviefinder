@@ -29,9 +29,6 @@ async function onSearch() {
             // if ((Array.isArray(moviesData.Search)) && (moviesData.Search.length > 1)) {
             if (Array.isArray(moviesData.Search)) {
                 movieListElement.innerHTML = moviesData.Search.map((movie) => movieHTML(movie)).join("");
-
-            // } else if (moviesData.Search.length == 1) {
-            //     movieListElement.innerHTML = movieHTMLsingle(moviesData);
             
             } else {
                 movieListElement.innerHTML = "<p>No results found.</p>";
