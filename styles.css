@@ -340,9 +340,9 @@ nav {
     text-align: center;
 }
 
-.movie__box--imbd {
+/* .movie__box--imdb {
     display: none;
-}
+} */
 
 .myspinner {
     animation: rotate 800ms infinite linear;

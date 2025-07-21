@@ -5,6 +5,8 @@ const searchBarYear = document.getElementById('searchYear');
 const resultsTerm = document.getElementById("searchTerm");
 const resultsHeader = document.getElementById("resultsHeader");
 
+// var movieSingleArray, movieSingle = [];
+
 
 document.addEventListener('DOMContentLoaded', () => {
     movieListElement.addEventListener('error', function (e) {
@@ -53,14 +55,19 @@ async function onSearch() {
 
     if (searchTitle) {
         try {
+            var moviesArray;
             const movies = await fetch("https://www.omdbapi.com/?apikey=8097d20a&" + searchKey);
             const moviesData = await movies.json();
-            
+
             document.querySelector("#spinner").classList.remove("movie__list--loading");
             
             if (Array.isArray(moviesData.Search)) {
                 if (moviesData.Search.length > 6) moviesData.Search.length = 6;
-                movieListElement.innerHTML = moviesData.Search.map((movie) => movieHTML(movie)).join("");
+                moviesArray = moviesData.Search;
+                console.log(moviesArray.length);
+                const movieSingles = await moviesDetail(moviesArray);
+                // movieListElement.innerHTML = moviesData.Search.map((movie) => movieHTML(movie)).join("");
+                movieListElement.innerHTML = movieSingles.map((movie) => movieHTML(movie)).join("");
             
             } else {
                 movieListElement.innerHTML = "<p class='results__none'>No results found.</p>";
@@ -76,14 +83,22 @@ async function onSearch() {
 }
 
 function movieHTML(movie) {
-
     return `
             <div class="movie__box">
-                        <img src="${movie.Poster}" class="movie__poster">
-                        <h2 class="movie__title">${movie.Title}</h2>
+                    <img src="${movie.Poster}" class="movie__poster">
+                    <h2 class="movie__title">${movie.Title}</h2>
                     <p>Year: ${movie.Year}</p>
-                    <p class="movie__box--imdb">${movie.imdbID}</p>
             </div>
             `;
 }
 
+async function moviesDetail(moviesArray) {
+            var movieSingle;
+            var movieSingleArray = [];
+            for (i = 0; i < moviesArray.length; i++) { 
+                console.log(moviesArray[i].Title);
+                movieSingle = await fetch("https://www.omdbapi.com/?apikey=8097d20a&t=" + moviesArray[i].Title);
+                movieSingleArray[i] = await movieSingle.json();
+            };
+            return movieSingleArray;
+}
