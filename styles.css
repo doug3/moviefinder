@@ -272,6 +272,11 @@ nav {
     display: none;
 }
 
+.results__none {
+    font-size: 32px;
+    color: #ff0000;
+}
+
 .movie__list {
     display: flex;
     flex-wrap: wrap;
