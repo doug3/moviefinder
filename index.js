@@ -12,7 +12,7 @@ function closeMenu() {
 
 async function onSearch() {
     document.querySelector("#spinner").classList.add("movie__list--loading");
-    setTimeout(function(){closeMenu()}, 5000);
+    await new Promise(time => setTimeout(time, 1000));
     const searchTitle = searchBar.value;
     const searchYear = document.getElementById('searchYear').value;
     var searchKey = "s=" + searchTitle + "&type=movie";

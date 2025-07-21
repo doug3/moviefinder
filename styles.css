@@ -194,6 +194,10 @@ nav {
     cursor: pointer;
 }
 
+.fa-bars:hover {
+    transform: scale(1.1);
+}
+
 /*
 
     SEARCH BAR
@@ -235,7 +239,7 @@ nav {
 
 .search__wrapper {
     position: relative;
-    right: 10px;
+    right: 5px;
 }
 .search__wrapper i {
     font-size: 32px;
@@ -247,6 +251,10 @@ nav {
 .search__wrapper:hover i {
     color: #f7734f;
     transform: scale(1.1);
+}
+
+::placeholder {
+    color: #ff0000;
 }
 
 /* 
