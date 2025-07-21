@@ -1,6 +1,9 @@
 
 const movieListElement = document.querySelector(".movie__list");
-const searchBar = document.querySelector("#searchBar");
+const searchBarText = document.querySelector("#searchBar");
+const searchBarYear = document.getElementById('searchYear');
+const resultsTerm = document.getElementById("searchTerm");
+const resultsHeader = document.getElementById("resultsHeader");
 
 function openMenu() {
     document.body.classList.add('menu--open');
@@ -12,22 +15,28 @@ function closeMenu() {
 
 async function onSearch() {
     document.querySelector("#spinner").classList.add("movie__list--loading");
+    resultsHeader.classList.remove("results__header--off");
     await new Promise(time => setTimeout(time, 1000));
-    const searchTitle = searchBar.value;
-    const searchYear = document.getElementById('searchYear').value;
+    const searchTitle = searchBarText.value;
+    const searchYear = searchBarYear.value;
     var searchKey = "s=" + searchTitle + "&type=movie";
-    if (searchYear) searchKey += ("&y=" + searchYear);
+    searchBarText.value = "";
+
+    if (searchYear) {
+        searchKey += ("&y=" + searchYear);
+        searchBarYear.value = "";
+        resultsTerm.innerHTML = searchTitle + " " + searchYear;
+    } else resultsTerm.innerHTML = searchTitle;
+
     if (searchTitle) {
         try {
             const movies = await fetch("https://www.omdbapi.com/?apikey=8097d20a&" + searchKey);
             const moviesData = await movies.json();
             
             document.querySelector("#spinner").classList.remove("movie__list--loading");
-            if (moviesData.Search.length > 6) moviesData.Search.length = 6;
             
-            
-            // if ((Array.isArray(moviesData.Search)) && (moviesData.Search.length > 1)) {
             if (Array.isArray(moviesData.Search)) {
+                if (moviesData.Search.length > 6) moviesData.Search.length = 6;
                 movieListElement.innerHTML = moviesData.Search.map((movie) => movieHTML(movie)).join("");
             
             } else {
@@ -37,32 +46,34 @@ async function onSearch() {
         catch (error) {
             movieListElement.innerHTML = "<p>Database not connected. Try again later.</p>";
         }
-    } else alert("Title is required to search");   
+    } else {
+        document.querySelector("#spinner").classList.remove("movie__list--loading");
+        alert("Title is required to search");
+    }   
 }
 
 function movieHTML(movie) {
+
     return `
-            <div class="movie__box">
-                <img src="${movie.Poster}" class="movie__poster"></img>
-                <h2 class="movie__title">${movie.Title}</h2>
-                <p>Year: ${movie.Year}</p>
+            <div class="movie__box" onmouseover="showPlot(this, '${movie.imdbID}')" onmouseout="hidePlot(this)">
+                    <figure class="movie__poster--wrapper>
+                        <img src="${movie.Poster}" class="movie__poster">
+                    </figure>
+                        <h2 class="movie__title">${movie.Title}</h2>
+                    <p>Year: ${movie.Year}</p>
+                    <p class="movie__box--imdb">${movie.imdbID}</p>
             </div>
             `;
 }
 
+function showPlot(movieDiv, imdbID) {
+    console.log("in");
+    console.log(imdbID);
+}
 
-// function movieHTMLSingle(movie) { 
-//     return `
-//             <div class="movie__box">
-//                 <img src="${movie.Poster}" class="movie__poster"></img>
-//                 <h2 class="movie__title">${movie.Title}</h2>
-//                 <p>Year: ${movie.Year}</p>
-//                 <p>Rating: ${movie.Rated || "N/A"}</p>
-//                 <p>Length: ${movie.Runtime || "N/A"}</p>
-//                 <p class="movie__plot">Plot: ${movie.Plot || "N/A"}</p>
-//             </div>
-//             `;
-// }
+function hidePlot(movieDiv) {
+    console.log("out");
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     movieListElement.addEventListener('error', function (e) {
