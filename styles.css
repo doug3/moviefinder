@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 
-/* colors   #4285D3 light blue, 
-            #D6413F dark red */
-
-
 * {
     margin: 0 auto;
     padding: 0;
@@ -310,39 +306,71 @@ nav {
     display: block !important;
 }
 
+.movie__show {
+    display: flex;
+}
+
+.movie__hide {
+    display: none !important;
+}
+
+.movie__box--wrapper {
+    display: flex;
+    max-width: 400px;
+}
+
+
+
+.movie__box--wrapper:hover .movie__show {
+    display: none !important;
+}
+
+.movie__box--wrapper:hover .movie__hide {
+    display: flex !important;
+}
+
 .movie__box {
     display: flex;
     flex-direction: column;
     justify-content:space-between;
-    width: 30%;
     max-width: 400px;
     padding: 20px 40px;
     border: 2px solid #f1977e;
     border-radius: 20px;
     margin: 10px;
     box-shadow: #c6c5c5 5px 5px 3px;
+    transition:all 300ms ease;
 }
 
-.movie__box--poster {
-    /* height: 85%; */
+.movie__detail {
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    min-height: 590px;
+    padding: 20px 40px;
+    border: 2px solid #f1977e;
+    border-radius: 20px;
+    margin: 10px;
+    box-shadow: #c6c5c5 5px 5px 3px;
+    transition:all 300ms ease;
 }
 
 .movie__box--info {
     text-align: center;
 }
 
+.movie__poster--wrapper {
+    min-height: 415px;
+    text-align: center;
+}
+
 .movie__poster {
     width: 100%;
-    max-width: 300px;
 }
 
 .movie__title {
     text-align: center;
 }
-
-/* .movie__box--imdb {
-    display: none;
-} */
 
 .myspinner {
     animation: rotate 800ms infinite linear;
@@ -376,7 +404,7 @@ nav {
         font-size: 0.8rem;
     }
 
-    .movie__box {
+    .movie__box--wrapper {
         width: 45%;
     }
 }
@@ -390,7 +418,7 @@ nav {
         padding: 8px 16px;
     }
 
-    .movie__box {
+    .movie__box, movie__detail {
         padding: 10px;
     }
 }
@@ -413,11 +441,17 @@ nav {
         display: flex;
     }
 
-    .movie__box {
+    .movie__box--wrapper {
         width: 100%;
     }
 }
 
 @media (max-width: 480px) {
-    
+    .movie__detail {
+        line-height: 1;
+    }
+
+    .movie__box--wrapper {
+        max-width: 320px;
+    }
 }
