@@ -89,8 +89,10 @@ function movieHTML(movie) {
                     <figure class="movie__poster--wrapper">
                         <img src="${movie.Poster}" class="movie__poster">
                     </figure>
-                    <h2 class="movie__title">${movie.Title}</h2>
-                    <p>Year: ${movie.Year}</p>
+                    <div>
+                        <h2 class="movie__title">${movie.Title}</h2>
+                        <p class="movie__year">Year: ${movie.Year}</p>
+                    </div>
                 </div>
                 <div class="movie__detail movie__hide">
                     <p><b>Rated:</b> ${movie.Rated}</p>

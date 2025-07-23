@@ -278,7 +278,7 @@ nav {
     flex-wrap: wrap;
     width: 100%;
     max-width: 1200px;
-    justify-content:space-around
+    justify-content:space-around;
 }
 
 .movie__list img {
@@ -319,10 +319,8 @@ nav {
     max-width: 400px;
 }
 
-
-
 .movie__box--wrapper:hover .movie__show {
-    display: none !important;
+    display: none;
 }
 
 .movie__box--wrapper:hover .movie__hide {
@@ -346,13 +344,14 @@ nav {
     flex-direction: column;
     justify-content: space-around;
     text-align: center;
-    min-height: 590px;
-    padding: 20px 40px;
+    padding: 10px 10px;
     border: 2px solid #f1977e;
     border-radius: 20px;
     margin: 10px;
     box-shadow: #c6c5c5 5px 5px 3px;
     transition:all 300ms ease;
+    font-size: 14px;
+    width: 100%;
 }
 
 .movie__box--info {
@@ -360,17 +359,19 @@ nav {
 }
 
 .movie__poster--wrapper {
-    min-height: 415px;
-    text-align: center;
+    display: flex;
+    min-height: 450px;
 }
 
 .movie__poster {
     width: 100%;
 }
 
-.movie__title {
+.movie__title, .movie__year {
     text-align: center;
 }
+
+
 
 .myspinner {
     animation: rotate 800ms infinite linear;
@@ -407,6 +408,10 @@ nav {
     .movie__box--wrapper {
         width: 45%;
     }
+
+    .movie__box, .movie__detail {
+        padding: 10px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -418,8 +423,12 @@ nav {
         padding: 8px 16px;
     }
 
-    .movie__box, movie__detail {
+    .movie__box, .movie__detail {
         padding: 10px;
+    }
+
+    .movie__poster--wrapper {
+        min-height: auto;
     }
 }
 
@@ -449,6 +458,7 @@ nav {
 @media (max-width: 480px) {
     .movie__detail {
         line-height: 1;
+        font-size: 14px;
     }
 
     .movie__box--wrapper {
