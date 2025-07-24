@@ -76,8 +76,13 @@ async function moviesDetail(moviesArray) {
             var movieSingle;
             var movieSingleArray = [];
             for (i = 0; i < moviesArray.length; i++) { 
-                movieSingle = await fetch("https://www.omdbapi.com/?apikey=8097d20a&t=" + moviesArray[i].Title);
-                movieSingleArray[i] = await movieSingle.json();
+                try {
+                    movieSingle = await fetch("https://www.omdbapi.com/?apikey=8097d20a&t=" + moviesArray[i].Title);
+                    movieSingleArray[i] = await movieSingle.json();
+                }
+                catch (error) {
+                    alert("Database Error. Please try again.");
+                }
             };
             return movieSingleArray;
 }
@@ -105,3 +110,48 @@ function movieHTML(movie) {
             `;
 }
 
+const rangeInput = document.querySelectorAll(".range__input input"),
+      yearInput = document.querySelectorAll(".year__input input"),
+      range = document.querySelector(".slider .progress");
+let yearGap = 1;
+yearInput.forEach(input =>{
+    input.addEventListener("input", e =>{
+        let minYear = parseInt(yearInput[0].value),
+        maxYear = parseInt(yearInput[1].value);
+        if (minYear < 1900) {
+            minYear = 1900;
+        }
+        if (minYear > maxYear) {
+            minYear = maxYear - yearGap;
+        };
+        if((maxYear - minYear >= yearGap) && maxYear <= rangeInput[1].max){
+            if(e.target.className === "input__min"){
+                rangeInput[0].value = minYear;
+                console.log((minYear - rangeInput[0].min) / (rangeInput[0].max - rangeInput[0].min));
+                range.style.left  = ((minYear - rangeInput[0].min) / (rangeInput[0].max - rangeInput[0].min)) * 100 + "%";
+            }else{
+                rangeInput[1].value = maxYear;
+                range.style.right = 100 - ((maxYear - rangeInput[1].min) / (rangeInput[1].max - rangeInput[1].min)) * 100 + "%";
+            }
+        }
+    });
+});
+
+rangeInput.forEach(input =>{
+    input.addEventListener("input", e =>{
+        let minVal = parseInt(rangeInput[0].value),
+        maxVal = parseInt(rangeInput[1].value);
+        if((maxVal - minVal) < yearGap){
+            if(e.target.className === "range__min"){
+                rangeInput[0].value = maxVal - yearGap
+            }else{
+                rangeInput[1].value = minVal + yearGap;
+            }
+        }else{
+            yearInput[0].value = minVal;
+            yearInput[1].value = maxVal;
+            range.style.left = (((minVal - rangeInput[0].min) / (rangeInput[0].max - rangeInput[0].min)) * 100) + "%";
+            range.style.right = 100 - ((maxVal - rangeInput[1].min) / (rangeInput[1].max - rangeInput[1].min)) * 100 + "%";
+        }
+    });
+});

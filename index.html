@@ -183,8 +183,26 @@
                 </div>
             </div>
             <div id="resultsHeader" class="row results__header results__header--off">
-                <p>Search results for: &quot<span id="searchTerm"></span>&quot
-                </p>
+                <p class="search__results">Search results for: &quot<span id="searchTerm" class="search__term"></span>&quot</p>
+                <div class="filter__wrapper">
+                    <p>Filter by year:</p>
+                    <div class="year__input">
+                        <div class="year__field">
+                        <input type="number" class="input__min" value="1900">
+                        </div>
+                        <div class="separator">&lt;--&gt;</div>
+                        <div class="year__field">
+                        <input type="number" class="input__max" value="2025">
+                        </div>
+                    </div>
+                    <div class="slider">
+                        <div class="progress"></div>
+                    </div>
+                    <div class="range__input">
+                        <input type="range" class="range__min" min="1900" max="2025" value="1900" step="1">
+                        <input type="range" class="range__max" min="1900" max="2025" value="2025" step="1">
+                    </div>
+                </div>
             </div>
         </div>
         <div id="spinner" class="row">
@@ -197,9 +215,4 @@
     </main>
 </body>
 </html>
-
-
-
-
-
 
