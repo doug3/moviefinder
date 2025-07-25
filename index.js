@@ -5,6 +5,13 @@ const searchBarYear = document.getElementById('searchYear');
 const resultsTerm = document.getElementById("searchTerm");
 const resultsHeader = document.getElementById("resultsHeader");
 
+const rangeInput = document.querySelectorAll(".range__input input"),
+      yearInput = document.querySelectorAll(".year__input input"),
+      range = document.querySelector(".slider .progress");
+var yearGap = 1;
+
+var movieSingles;
+
 document.addEventListener('DOMContentLoaded', () => {
     movieListElement.addEventListener('error', function (e) {
         if (e.target.classList.contains('movie__poster')) {
@@ -20,6 +27,50 @@ searchBar.addEventListener("keyup", function(event) {
     }
 });
 
+yearInput.forEach(input =>{
+    input.addEventListener("input", e =>{
+        let minYear = parseInt(yearInput[0].value),
+        maxYear = parseInt(yearInput[1].value);
+        if (minYear < 1900) {
+            minYear = 1900;
+        }
+        if (minYear > maxYear) {
+            minYear = maxYear - yearGap;
+        };
+        if ((maxYear - minYear >= yearGap) && maxYear <= rangeInput[1].max){
+            if (e.target.className === "input__min") {
+                rangeInput[0].value = minYear;
+                range.style.left  = ((minYear - rangeInput[0].min) / (rangeInput[0].max - rangeInput[0].min)) * 100 + "%";
+            } else {
+                rangeInput[1].value = maxYear;
+                range.style.right = 100 - ((maxYear - rangeInput[1].min) / (rangeInput[1].max - rangeInput[1].min)) * 100 + "%";
+            }
+        }
+        generateResultsCode(movieSingles);
+    });
+});
+
+rangeInput.forEach(input =>{
+    input.addEventListener("input", e =>{
+        let minVal = parseInt(rangeInput[0].value),
+        maxVal = parseInt(rangeInput[1].value);
+        if ((maxVal - minVal) < yearGap) {
+            if (e.target.className === "range__min") {
+                rangeInput[0].value = maxVal - yearGap
+            } else {
+                rangeInput[1].value = minVal + yearGap;
+            }
+        } else {
+            yearInput[0].value = minVal;
+            yearInput[1].value = maxVal;
+            range.style.left = (((minVal - rangeInput[0].min) / (rangeInput[0].max - rangeInput[0].min)) * 100) + "%";
+            range.style.right = 100 - ((maxVal - rangeInput[1].min) / (rangeInput[1].max - rangeInput[1].min)) * 100 + "%";
+        }
+        generateResultsCode(movieSingles);
+    });
+});
+
+
 function openMenu() {
     document.body.classList.add('menu--open');
 }
@@ -29,6 +80,7 @@ function closeMenu() {
 }
 
 async function onSearch() {
+    movieSingles = [];
     movieListElement.innerHTML = "";
     document.querySelector("#spinner").classList.add("movie__list--loading");
     resultsHeader.classList.remove("results__header--off");
@@ -54,11 +106,9 @@ async function onSearch() {
             document.querySelector("#spinner").classList.remove("movie__list--loading");
             
             if (Array.isArray(moviesData.Search)) {
-                if (moviesData.Search.length > 6) moviesData.Search.length = 6;
                 moviesArray = moviesData.Search;
-                const movieSingles = await moviesDetail(moviesArray);
-                movieListElement.innerHTML = movieSingles.map((movie) => movieHTML(movie)).join("");
-            
+                movieSingles = await moviesDetail(moviesArray);
+                generateResultsCode(movieSingles);
             } else {
                 movieListElement.innerHTML = "<p class='results__none'>No results found.</p>";
             }
@@ -110,48 +160,20 @@ function movieHTML(movie) {
             `;
 }
 
-const rangeInput = document.querySelectorAll(".range__input input"),
-      yearInput = document.querySelectorAll(".year__input input"),
-      range = document.querySelector(".slider .progress");
-let yearGap = 1;
-yearInput.forEach(input =>{
-    input.addEventListener("input", e =>{
-        let minYear = parseInt(yearInput[0].value),
-        maxYear = parseInt(yearInput[1].value);
-        if (minYear < 1900) {
-            minYear = 1900;
-        }
-        if (minYear > maxYear) {
-            minYear = maxYear - yearGap;
-        };
-        if((maxYear - minYear >= yearGap) && maxYear <= rangeInput[1].max){
-            if(e.target.className === "input__min"){
-                rangeInput[0].value = minYear;
-                console.log((minYear - rangeInput[0].min) / (rangeInput[0].max - rangeInput[0].min));
-                range.style.left  = ((minYear - rangeInput[0].min) / (rangeInput[0].max - rangeInput[0].min)) * 100 + "%";
-            }else{
-                rangeInput[1].value = maxYear;
-                range.style.right = 100 - ((maxYear - rangeInput[1].min) / (rangeInput[1].max - rangeInput[1].min)) * 100 + "%";
-            }
-        }
-    });
-});
 
-rangeInput.forEach(input =>{
-    input.addEventListener("input", e =>{
-        let minVal = parseInt(rangeInput[0].value),
-        maxVal = parseInt(rangeInput[1].value);
-        if((maxVal - minVal) < yearGap){
-            if(e.target.className === "range__min"){
-                rangeInput[0].value = maxVal - yearGap
-            }else{
-                rangeInput[1].value = minVal + yearGap;
+
+function generateResultsCode(movieArray) {
+    const arrLen = movieArray.length;
+    let newHTML = [];
+    for (let i = 0, j = 0; ((i < arrLen) && j < 6); i++) {
+        if (parseInt(movieArray[i].Year)) {
+            if ((movieArray[i].Year >= rangeInput[0].value) && (movieArray[i].Year <= rangeInput[1].value)) {
+                newHTML[j] = movieHTML(movieArray[i]);
+                j++;
             }
-        }else{
-            yearInput[0].value = minVal;
-            yearInput[1].value = maxVal;
-            range.style.left = (((minVal - rangeInput[0].min) / (rangeInput[0].max - rangeInput[0].min)) * 100) + "%";
-            range.style.right = 100 - ((maxVal - rangeInput[1].min) / (rangeInput[1].max - rangeInput[1].min)) * 100 + "%";
-        }
-    });
-});
+        };
+    };
+    movieListElement.innerHTML = newHTML.join("");
+}
+
+
